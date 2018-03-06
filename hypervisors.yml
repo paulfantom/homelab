@@ -1,0 +1,28 @@
+---
+- name: Install and configure libvirt
+  hosts: hypervisors
+  become: yes
+  tasks:
+    - name: Install libvirt
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - libvirt
+        - libvirt-client
+        - libvirt-daemon-kvm
+        - libvirt-daemon-driver-qemu
+    - name: Configure user access
+      user:
+        name: "{{ ansible_user }}"
+        groups: libvirt
+        append: yes
+    - name: Enable libvirt
+      systemd:
+        name: libvirtd
+        state: started
+        enabled: yes
+
+# TODO: https://github.com/paulfantom/vfio-nvidia-pass
+#- name: Configure GPU passthrough
+

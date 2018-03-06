@@ -1,0 +1,34 @@
+---
+- name: Install docker
+  hosts: nas
+  gather_facts: yes
+  become: yes
+  roles:
+    - SoInteractive.docker
+  tags:
+    - docker
+
+- name: Configure NFS storage
+  hosts: nas
+  become: yes
+  roles:
+    - { role: geerlingguy.nfs, tags: skip_ansible_lint }
+  tags:
+    - nfs
+
+- name: Configure mediacenter
+  hosts: nas
+  become: yes
+  tasks:
+    - name: Create directories
+      file:
+        path: /tmp/mediacenter
+        state: directory
+    - name: Copy docker compose file
+      template:
+        src: docker-compose.nas.yml.j2
+        dest: /tmp/mediacenter/docker-compose.yml
+    - name: Create containers
+      docker_service:
+        project_name: nas
+        project_src: /tmp/mediacenter

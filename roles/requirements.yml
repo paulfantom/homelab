@@ -1,0 +1,20 @@
+- name: dev-sec.os-hardening
+  version: '4.3.0'
+- name: dev-sec.ssh-hardening
+  version: '4.4.0'
+
+- name: SoInteractive.system
+  version: 0.11.3
+- name: SoInteractive.docker
+  version: 0.11.11
+
+- name: geerlingguy.nfs
+- name: cloudalchemy.node-exporter
+- name: cloudalchemy.snmp-exporter
+- name: cloudalchemy.blackbox-exporter
+- name: cloudalchemy.prometheus
+- name: cloudalchemy.alertmanager
+- name: cloudalchemy.grafana
+
+- name: triplepoint.home-assistant
+  version: 1.2.1

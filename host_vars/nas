@@ -1,0 +1,33 @@
+sysctl_rhel_config: {}
+docker_configuration: {}
+
+plex_version: 1.11.3.4803-c40bba82e
+plexpy_version: 112
+couchpotato_version: 110
+transmission_version: 1.19
+owncloud_client_version: 0.2
+
+directories:
+  configs: /srv/configs
+  videos: /srv/videos
+  pictures: /srv/pictures
+  downloads: /srv/downloads
+  tvshows: /srv/tv
+  movies: /srv/movies
+
+plex_pass: "{{ vault_plex_pass }}"
+openvpn: "{{ vault_openvpn_account }}"
+nextcloud: "{{ nextcloud_account }}"
+
+nfs_exports:
+  - "{{ directories.pictures }}  {{ ansible_default_ipv4.network }}/24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)"
+  - "{{ directories.videos }}    {{ ansible_default_ipv4.network }}/24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)"
+  - "{{ directories.movies }}    {{ ansible_default_ipv4.network }}/24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)"
+  - "{{ directories.tvshows }}   {{ ansible_default_ipv4.network }}/24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)"
+  - "{{ directories.downloads }} {{ ansible_default_ipv4.network }}/24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)"
+
+node_exporter_enabled_collectors:
+  - filesystem:
+      ignored-mount-points: "^/(sys|proc|dev)($|/)"
+      ignored-fs-types: "^(sys|proc|auto)fs$"
+  - systemd

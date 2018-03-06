@@ -1,0 +1,107 @@
+prometheus_web_external_url: "http://{{ ansible_host }}:9090"
+prometheus_alertmanager_config:
+  - scheme: http
+    static_configs:
+      - targets: ["{{ ansible_host }}:9093"]
+
+prometheus_targets:
+  node:
+  - targets:
+    - monitoring.ankhmorpork:9100
+    - home.ankhmorpork:9100
+    - nas.ankhmorpork:9100
+    labels:
+      env: ankhmorpork
+  docker:
+  - targets:
+    - nas.ankhmorpork:8080
+    labels:
+      env: ankhmorpork
+
+prometheus_scrape_configs:
+- job_name: node
+  file_sd_configs:
+  - files:
+    - "{{ prometheus_config_dir }}/file_sd/node.yml"
+- job_name: docker
+  file_sd_configs:
+  - files:
+    - "{{ prometheus_config_dir }}/file_sd/docker.yml"
+- job_name: grafana
+  static_configs:
+    - targets: ['monitoring.ankhmorpork:3000']
+- job_name: alertmanager
+  static_configs:
+    - targets: ['monitoring.ankhmorpork:9093']
+- job_name: 'hass'
+  scrape_interval: 60s
+  metrics_path: /api/prometheus
+  params:
+    api_password: ["{{ vault_hass_api_pass }}"]
+  scheme: https
+  static_configs:
+    - targets: ['krk.krupa.net.pl']
+- job_name: 'snmp'
+  static_configs:
+    - targets:
+      - 192.168.5.1
+  metrics_path: /snmp
+  params:
+    module: [ddwrt]
+  scrape_interval: 5s
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: monitoring.ankhmorpork:9116
+- job_name: 'blackbox'
+  metrics_path: /probe
+  params:
+    module: [http_2xx]
+  scrape_interval: 60s
+  static_configs:
+    - targets:
+      - https://krk.krupa.net.pl
+      - https://cloud.krupa.net.pl
+      - https://krupa.net.pl
+      - https://woda.krupa.net.pl
+      - https://moodle.krupa.net.pl
+      - http://nas.ankhmorpork:32400
+      - http://nas.ankhmorpork:5050
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: monitoring.ankhmorpork:9115  # Blackbox exporter.
+
+alertmanager_external_url: "http://{{ ansible_host }}:9093"
+
+grafana_security:
+  admin_user: admin
+  admin_password: "{{ vault_grafana_password }}"
+  
+grafana_auth:
+  anonymous:
+    org_name: "Main Org."
+    org_role: Viewer
+
+grafana_datasources:
+  - name: "Prometheus"
+    type: "prometheus"
+    access: "proxy"
+    url: "http://{{ ansible_host }}:9090"
+    isDefault: true
+grafana_dashboards:
+  - dashboard_id: '1860'
+    revision_id: '8'
+    datasource: 'Prometheus'
+  - dashboard_id: '3662'
+    revision_id: '2'
+    datasource: 'Prometheus'
+  - dashboard_id: '4271'
+    revision_id: '2'
+    datasource: 'Prometheus'
