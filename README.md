@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/paulfantom/homelab.svg?branch=master)](https://travis-ci.org/paulfantom/homelab)
+
 # HOMELAB
 
 Repository contains ansible playbooks to setup my home infrastructure.
