@@ -3,6 +3,6 @@ cache: pip
 install:
   - pip install ansible-lint
 script:
-  - test.sh
+  - ./test.sh
 notifications:
   email: true
