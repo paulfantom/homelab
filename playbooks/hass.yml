@@ -65,3 +65,4 @@
       git:
         repo: 'https://github.com/paulfantom/hass-config.git'
         dest: "{{ homeassistant_home }}/.homeassistant"
+        version: master
