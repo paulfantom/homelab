@@ -16,5 +16,6 @@
 - name: cloudalchemy.alertmanager
 - name: cloudalchemy.grafana
 
-- name: triplepoint.home-assistant
-  version: 1.2.1
+- name: antoiner77.caddy
+
+

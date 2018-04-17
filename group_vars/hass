@@ -1,0 +1,12 @@
+homeassistant_home: /srv/hass
+caddy_systemd_capabilities_enabled: True
+caddy_features: http.prometheus
+caddy_config: |
+  {{ domain }} {
+    prometheus
+    tls paulfantom@gmail.com
+    proxy / localhost:8123 {
+      websocket
+      transparent
+    }
+  }

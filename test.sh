@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-ansible-lint site.yml
+ansible-lint playbooks/site.yml

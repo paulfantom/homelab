@@ -1,6 +1,6 @@
 ---
 - name: Install docker
-  hosts: nas
+  hosts: storage
   gather_facts: yes
   become: yes
   roles:
@@ -9,7 +9,7 @@
     - docker
 
 - name: Configure NFS storage
-  hosts: nas
+  hosts: storage
   become: yes
   roles:
     - { role: geerlingguy.nfs, tags: skip_ansible_lint }
@@ -17,7 +17,7 @@
     - nfs
 
 - name: Configure mediacenter
-  hosts: nas
+  hosts: storage
   become: yes
   tasks:
     - name: Create directories

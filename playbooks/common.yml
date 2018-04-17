@@ -6,8 +6,8 @@
   any_errors_fatal: true
   roles:
 #    -{ role dev-sec.os-hardening, tags: skip_ansible_lint }
-    - { role: dev-sec.ssh-hardening, tags: skip_ansible_lint }
-    - { role: SoInteractive.system }
+#    - { role: dev-sec.ssh-hardening, tags: skip_ansible_lint }
+#    - { role: SoInteractive.system }
     - { role: cloudalchemy.node-exporter }
   tags:
     - basics
