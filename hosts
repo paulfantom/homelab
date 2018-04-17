@@ -1,9 +1,13 @@
 monitoring ansible_host=monitoring.ankhmorpork ansible_user=pi
 home       ansible_host=home.ankhmorpork
 nas        ansible_host=nas.ankhmorpork
+vetinari   ansible_host=vetinari.ankhmorpork
 
 [hypervisors]
 nas
+
+[scheduler]
+vetinari
 
 [all:vars]
 ansible_user=paulfantom

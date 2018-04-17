@@ -4,7 +4,29 @@
   gather_facts: yes
   become: yes
   roles:
-    - SoInteractive.docker
+    - mongrelion.docker
+  tasks:
+  - name: Ensure cAdvisor is started
+    docker_container:
+      name: cadvisor
+      image: google/cadvisor:latest
+      restart_policy: always
+      memory: 256m
+      command: "--disable_metrics disk,tcp,udp --housekeeping_interval 5s"
+      labels:
+        namespace: management
+      ports:
+        - "8080:8080"
+      volumes:
+        - "/:/rootfs:ro"
+        - "/var/run:/var/run:rw"
+        - "/sys:/sys:ro"
+        - "/var/lib/docker:/var/lib/docker:ro"
+        - "/etc/localtime:/etc/localtime:ro"
+      log_driver: syslog
+      log_options:
+        syslog-facility: local0
+        tag: cadvisor
   tags:
     - docker
 
