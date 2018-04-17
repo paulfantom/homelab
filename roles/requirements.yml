@@ -5,8 +5,9 @@
 
 - name: SoInteractive.system
   version: 0.11.3
-- name: SoInteractive.docker
-  version: 0.11.11
+#- name: SoInteractive.docker
+#  version: 0.11.11
+- name: mongrelion.docker
 
 - name: geerlingguy.nfs
 - name: cloudalchemy.node-exporter

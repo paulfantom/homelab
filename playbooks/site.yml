@@ -2,4 +2,4 @@
 - include: mediacenter.yml
 - include: hypervisors.yml
 - include: hass.yml
-#- include: unseenuniveristy.yml
+- include: scheduler.yml

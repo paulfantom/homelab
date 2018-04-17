@@ -1,4 +1,3 @@
-#homeassistant
 [hass]
 vetinari
 
@@ -8,20 +7,8 @@ librarian
 [hypervisors]
 librarian
 
-#kubernetes
-[unseenuniversity]
+[scheduler]
 stibbons
-bursar
-dean
-
-[kube-master]
-stibbons
-
-[etcd:children]
-unseenuniversity
-
-[kube-node:children]
-unseenuniversity
 
 [all:vars]
 ansible_user=paulfantom
