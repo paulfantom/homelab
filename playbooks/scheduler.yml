@@ -38,6 +38,8 @@
     - node_exporter
     - blackbox_exporter
     - snmp_exporter
+
+  # https://vijaikumar.in/keeping-your-irccloud-client-always-connected-for-free-82db71b3cff3
   - name: Download irccloud script
     get_url:
       url: "https://raw.githubusercontent.com/vijaiaeroastro/irccloud/master/irccloud.py"
