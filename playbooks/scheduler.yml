@@ -38,3 +38,22 @@
     - node_exporter
     - blackbox_exporter
     - snmp_exporter
+  - name: Download irccloud script
+    get_url:
+      url: "https://raw.githubusercontent.com/vijaiaeroastro/irccloud/master/irccloud.py"
+      dest: /usr/local/bin/irccloud.py
+      mode: 0755      
+  - name: "Setup irccloud session keeper cron job"
+    cron:
+      cron_file: irc
+      user: "{{ ansible_env['SUDO_USER'] | default(ansible_user_id) }}"
+      name: "irccloud session keeper"
+      special_time: "hourly"
+      job: /usr/local/bin/irccloud.py
+  - name: "Configure irccloud script"
+    cron:
+      cron_file: irc
+      env: yes
+      name: "{{ item.key }}"
+      value: "{{ item.value }}"
+    with_dict: "{{ irccloud_credentials }}"
