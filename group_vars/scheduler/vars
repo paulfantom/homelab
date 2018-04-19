@@ -1,1 +1,2 @@
 gh_token: "{{ vault_gh_token }}"
+irccloud_credentials: "{{ vault_irccloud_credentials }}"
