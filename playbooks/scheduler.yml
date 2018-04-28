@@ -51,7 +51,7 @@
       user: "{{ ansible_env['SUDO_USER'] | default(ansible_user_id) }}"
       name: "irccloud session keeper"
       special_time: "hourly"
-      job: /usr/local/bin/irccloud.py
+      job: python /usr/local/bin/irccloud.py
   - name: "Configure irccloud script"
     cron:
       cron_file: irc
