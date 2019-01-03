@@ -1,0 +1,11 @@
+[Unit]
+Description=Home Assistant
+After=network-online.target
+
+[Service]
+Type=simple
+User=homeassistant
+ExecStart={{ homeassistant_home }}/venv/bin/hass -c "{{ homeassistant_home }}/.homeassistant"
+
+[Install]
+WantedBy=multi-user.target

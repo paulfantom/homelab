@@ -1,9 +1,14 @@
-monitoring ansible_host=monitoring.ankhmorpork ansible_user=pi
-home       ansible_host=home.ankhmorpork
-nas        ansible_host=nas.ankhmorpork
+[hass]
+vetinari
+
+[storage]
+librarian
 
 [hypervisors]
-nas
+librarian
+
+[scheduler]
+stibbons
 
 [all:vars]
 ansible_user=paulfantom
