@@ -1,0 +1,67 @@
+---
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+## Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - nas.ankhmorpork:9093
+
+rule_files:
+  - "rules/*.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+  - job_name: 'nodes'
+    static_configs:
+    - targets:
+      - 'nas.ankhmorpork:9100'
+      - 'control01.ankhmorpork:9100'
+      - 'control02.ankhmorpork:9100'
+      - 'control03.ankhmorpork:9100'
+      - 'compute01.ankhmorpork:9100'
+      - 'vetinari.ankhmorpork:9100'
+  - job_name: 'processes'
+    static_configs:
+    - targets:
+      - 'nas.ankhmorpork:9256'
+  - job_name: 'unifi'
+    static_configs:
+    - targets: ['unifi:9130']
+  - job_name: 'docker'
+    static_configs:
+    - targets: ['nas.ankhmorpork:9323']
+  - job_name: 'cadvisor'
+    static_configs:
+    - targets: ['nas.ankhmorpork:9080']
+  - job_name: 'home-assistant'
+    scrape_interval: 60s
+    metrics_path: /api/prometheus
+    bearer_token: '<<HOME_ASSISTANT_BEARER_TOKEN>>'
+    static_configs:
+    - targets: ['vetinari.ankhmorpork:8123']
+  - job_name: 'transmission'
+    static_configs:
+    - targets: ['nas.ankhmorpork:19091']
+  - job_name: 'etcd'
+    scheme: 'https'
+    static_configs:
+    - targets:
+      - 'control01.ankhmorpork:2379'
+      - 'control02.ankhmorpork:2379'
+      - 'control03.ankhmorpork:2379'
+  - job_name: 'wmi'
+    static_configs:
+    - targets:
+      - 'dibbler.ankhmorpork:9182'
+  - job_name: 'smokeping'
+    static_configs:
+    - targets:
+      - 'nas.ankhmorpork:9374'
+

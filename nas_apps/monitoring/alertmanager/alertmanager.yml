@@ -1,0 +1,23 @@
+global:
+  resolve_timeout: 5m
+
+receivers:
+- name: 'slack'
+  slack_configs:
+    - api_url: '<<SLACK_ALERTMANAGER>>'
+      channel: '#alerts'
+      send_resolved: true
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 3h
+  receiver: 'slack'
+
+#inhibit_rules:
+#  - source_match:
+#      severity: 'critical'
+#    target_match:
+#      severity: 'warning'
+#    equal: ['alertname', 'dev', 'instance']

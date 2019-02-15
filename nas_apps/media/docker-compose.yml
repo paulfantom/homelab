@@ -1,0 +1,133 @@
+---
+version: '3'
+services:
+  plex:
+    image: plexinc/pms-docker
+    network_mode: host
+    restart: always
+    labels:
+      container_group: mediacenter
+    environment:
+      TZ: "Europe/Warsaw"
+      PLEX_CLAIM: "<<PLEX_CLAIM>>"
+      PLEX_UID: 1000
+      PLEX_GID: 1000
+      ALLOWED_NETWORKS: "192.168.1.0/24"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /srv/configs/plex:/config
+      - /srv/movies:/data/movies
+      - /srv/tv:/data/tv
+      - /srv/pictures:/data/pictures
+      - /srv/videos:/data/videos
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+  plexpy:
+    image: tautulli/tautulli
+    restart: always
+    labels:
+      container_group: monitoring
+    links:
+      - plex
+    ports:
+      - "8181:8181"
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: "Europe/Warsaw"
+    volumes:
+      - tautulli:/config
+
+  transmission:
+    image: haugene/transmission-openvpn:2.6
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    labels:
+      container_group: mediacenter
+    ports:
+      - "9091:9091"
+    dns:
+      - 208.67.222.222
+      - 208.67.220.220
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /srv/torrents/completed:/data/completed
+      - /srv/torrents/incomplete:/data/incomplete
+    environment:
+      OPENVPN_PROVIDER: "<<OPENVPN_PROVIDER>>"
+      OPENVPN_USERNAME: "<<OPENVPN_USERNAME>>"
+      OPENVPN_PASSWORD: "<<OPENVPN_PASSWORD>>"
+      OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
+      # LOCAL_NETWORK: "172.18.31.0/26"
+      LOCAL_NETWORK: "192.168.1.0/24"
+      PUID: 1000
+      PGID: 1000
+      TRANSMISSION_WEB_UI: combustion
+      TRANSMISSION_RATIO_LIMIT: 0.01
+      TRANSMISSION_RATIO_LIMIT_ENABLED: "true"
+      TRANSMISSION_RPC_HOST_WHITELIST_ENABLED: "false"
+  transmission-exporter:
+    image: metalmatze/transmission-exporter
+    restart: always
+    labels:
+      container_group: monitoring
+    links:
+      - transmission
+    ports:
+      - "19091:19091"
+    environment:
+      TRANSMISSION_ADDR: http://transmission:9091
+
+  radarr:
+    image: linuxserver/radarr
+    restart: 'always'
+    ports:
+      - "7878:7878"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - radarr:/config
+      - /srv/movies:/movies
+      - /srv/torrents/completed:/data/completed
+    labels:
+      container_group: mediacenter
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: "Europe/Warsaw"
+
+  sonarr:
+    image: linuxserver/sonarr
+    restart: 'always'
+    ports:
+      - "8989:8989"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - sonarr:/config
+      - /srv/tv:/tv
+      - /srv/torrents/completed:/data/completed
+    labels:
+      container_group: mediacenter
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: "Europe/Warsaw"
+
+  ombi:
+    image: linuxserver/ombi
+    restart: 'always'
+    ports:
+      - 3579:3579
+    volumes:
+      - ombi:/config
+    environment:
+      TZ: "Europe/Warsaw"
+
+volumes:
+  tautulli:
+  radarr:
+  sonarr:
+  ombi:

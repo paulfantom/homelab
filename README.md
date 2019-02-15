@@ -2,31 +2,29 @@
 
 # HOMELAB
 
-Repository contains ansible playbooks to setup my home infrastructure.
+Repository contains everything I need to setup my home/cloud infrastructure.
 
-## Hardware
+## Hardware (local)
 
 I don't have much hardware (yet) and right now everything is running on:
-- 1x Raspberry Pi 2
+- 3x Raspberry Pi 3 B+
 - 1x Odroid C2
-- 1x custom PC (i3-6100, GTX1050ti, some RAM and various disks)
+- 1x custom NAS (Ryzen 3-2200G, 8 GB RAM and various disks)
+- 1x dell laptop E5440
+- 1x Windows 10 box (i3-6100, nVidia GTX 1050ti, 16GB RAM)
 
-And network is configured on ASUS RT-AC66U with [Asuswrt-merlin](https://asuswrt.lostrealm.ca/) firmware.
+And network is configured using Ubiquiti UniFi devices.
 
 ## Software
 
 ### Monitoring
 
-[cloudalchemy](https://demo.cloudalchemy.org) all the way, so I'm running:
 - prometheus
 - grafana
-- node_exporter (on every box)
+- node_exporter (on every linux box)
+- wmi_exporter (on windows box)
 - blackbox_exporter
 - alertmanager
-
-### NAS
-
-Simple NFS setup + some synchronization to external nextcloud server with [toughiq/owncloud-client](https://hub.docker.com/toughiq/owncloud-client) docker containers.
 
 ### Mediacenter
 
@@ -35,10 +33,11 @@ Whole mediacenter is dockerized, and following containers are used:
 - [linuxserver/plexpy](https://hub.docker.com/linuxserver/plexpy)
 - [linuxserver/couchpotato](https://hub.docker.com/linuxserver/couchpotato)
 - [haugene/transmission-openvpn](https://hub.docker.com/haugene/transmission-openvpn)
+- ombi
 
 ### Hypervisor
 
-For basic virtualization this is just plain libvirt with KVM. However I do GPU passthrough of nvidia GTX1050 ti for my gaming VM, more on this setup is in another repository: [paulfantom/vfio-nvidia-pass](https://github.com/paulfantom/vfio-nvidia-pass)
+For basic virtualization this is just plain libvirt with KVM.
 
 ### Home Automation
 

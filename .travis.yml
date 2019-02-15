@@ -1,7 +1,7 @@
 language: python
 cache: pip
 install:
-  - pip install ansible-lint
+  - pip install ansible-lint yamllint
 script:
   - ./test.sh
 notifications:
