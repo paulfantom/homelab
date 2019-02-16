@@ -46,6 +46,9 @@ scrape_configs:
     bearer_token: '<<HOME_ASSISTANT_BEARER_TOKEN>>'
     static_configs:
     - targets: ['vetinari.ankhmorpork:8123']
+  - job_name: 'tautulli'
+    static_configs:
+    - targets: ['nas.ankhmorpork:9487']
   - job_name: 'transmission'
     static_configs:
     - targets: ['nas.ankhmorpork:19091']

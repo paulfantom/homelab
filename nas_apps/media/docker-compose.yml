@@ -23,7 +23,7 @@ services:
     privileged: true
     devices:
       - /dev/dri:/dev/dri
-  plexpy:
+  tautulli:
     image: tautulli/tautulli
     restart: always
     labels:
@@ -38,6 +38,13 @@ services:
       TZ: "Europe/Warsaw"
     volumes:
       - tautulli:/config
+  tautulli-exporter:
+    image: tubaguy50035/tautulli_exporter
+    ports:
+      - "9487:9487"
+    environment:
+      TAUTULLI_API_KEY: "<<TAUTULLI_API_KEY>>"
+      TAUTULLI_URI: "http://tautulli:8181"
 
   transmission:
     image: haugene/transmission-openvpn:2.6
