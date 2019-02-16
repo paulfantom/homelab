@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -e
+set -e
 
 # Decrypt
 gpg2 -d -o secrets secrets.gpg 
@@ -17,9 +17,9 @@ done < secrets
 git status
 
 # Deploy
-for dir in $(ls -d */); do
-	NAME=${dir///}
-	cd ${NAME}
-	docker-compose -p ${NAME} up -d
+for dir in */; do
+	cd "$dir"
+	NAMESPACE="$(basename "$(pwd)")"
+	docker-compose -p "${NAMESPACE}" up -d
 	cd ../
 done

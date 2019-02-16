@@ -3,10 +3,10 @@
 set -e
 
 #COLORS
-RST="\e[0m"
-Y="\e[33m"
-G="\e[32m"
-R="\e[31m"
+RST='\e[0m'
+Y='\e[33m'
+G='\e[32m'
+R='\e[31m'
 
 IP="$1"
 
