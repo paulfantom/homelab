@@ -40,6 +40,7 @@ services:
       - tautulli:/config
   tautulli-exporter:
     image: tubaguy50035/tautulli_exporter
+    restart: always
     ports:
       - "9487:9487"
     environment:
