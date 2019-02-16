@@ -1,0 +1,3 @@
+[submodule "hass/hass-config"]
+	path = hass/hass-config
+	url = https://github.com/paulfantom/hass-config.git
