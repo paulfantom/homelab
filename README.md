@@ -8,6 +8,7 @@ Repository contains everything I need to setup my home/cloud infrastructure.
 
 I don't have much hardware (yet) and right now everything is running on:
 - 3x Raspberry Pi 3 B+
+- 1x Raspberry Pi B (the first one)
 - 1x Odroid C2
 - 1x custom NAS (Ryzen 3-2200G, 8 GB RAM and various disks)
 - 1x dell laptop E5440
