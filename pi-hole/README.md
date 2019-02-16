@@ -22,7 +22,8 @@ reconfigure SSH to enable passwordless login with ssh key located in `~/.ssh/id_
 ### Configure Unifi Security Gateway
 1. Set raspberry to have static IP address in unifi
 2. Go to Settings > Networks > [local network] > DHCP Name Server (Manual)
-3. Enter RPi IP address. Additionally add some external DNS server (like `1.1.1.1`) as a secondary.
+3. Enter RPi IP address. Additionally add other DNS server (like `192.168.1.1` (USG) or `1.1.1.1` (cloudflare)) as
+a secondary.
 
 To have DNS resolution based on client hostnames following additional steps are needed:
 1. Go to Settings > Networks > [external network (type WAN)]
