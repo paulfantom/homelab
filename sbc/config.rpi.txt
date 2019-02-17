@@ -7,4 +7,9 @@ disable_camera_led=1
 gpu_mem=16
 
 # Enable audio (added by raspberrypi-sys-mods)
-dtparam=audio=on
+dtparam=audio=off
+
+dtparam=pwr_led_trigger=heartbeat
+
+dtoverlay=pi3-disable-wifi
+dtoverlay=pi3-disable-bt

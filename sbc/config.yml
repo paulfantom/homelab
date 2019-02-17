@@ -1,17 +1,12 @@
 #cloud-config
 # vim: syntax=yaml
-#
-#hostname: 
+
+hostname: "<<HOSTNAME>>"
 manage_etc_hosts: true
 
 timezone: "Europe/Warsaw"
 
-resize_rootfs: true
-growpart:
-    mode: auto
-    devices: ["/"]
-    ignore_growroot_disabled: false
-
+# resize_rootfs: false
 users:
   - name: paulfantom
     sudo: ALL=(ALL) NOPASSWD:ALL
@@ -22,4 +17,29 @@ users:
 
 package_update: true
 package_upgrade: true
-package_reboot_if_required: true
+package_reboot_if_required: false
+packages:
+  - vim
+  - jq
+  - busybox-syslogd
+  - haveged
+
+mounts:
+  - ["tmpfs", "/tmp", "tmpfs", "defaults,noatime,nosuid,size=100m", "0", "0"]
+  - ["tmpfs", "/var/tmp", "tmpfs", "defaults,noatime,nosuid,size=4m", "0", "0"]
+  - ["tmpfs", "/var/log", "tmpfs", "defaults,noatime,nosuid,mode=0755,size=100m", "0", "0"]
+  # - ["tmpfs", "/var/spool/mqueue", "tmpfs", "defaults,noatime,nofail,nosuid,mode=0700,gid=12,size=30m", "0", "0"] # This doesn't exist on test hypriot image
+
+write_files:
+  - path: /boot/cmdline.txt
+    content: "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1 elevator=deadline rootwait fsck.mode=skip fastboot ro net.ifnames=0"
+
+runcmd:
+  - wget "https://raw.githubusercontent.com/paulfantom/homelab/master/sbc/roles/<<ROLE>>.sh" -O /run/bootstrap.sh
+  - bash /run/bootstrap.sh
+
+power_state:
+  mode: reboot
+  message: Bye Bye
+  timeout: 5
+  condition: true
