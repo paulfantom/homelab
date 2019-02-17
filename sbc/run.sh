@@ -28,13 +28,16 @@ install_flash() {
 	export PATH="/tmp:$PATH"
 }
 
-while getopts ":h:p:r:d:v:" opt; do
+while getopts ":h:i:p:r:d:v:" opt; do
 	case $opt in
 	d)
 		DEVICE=$OPTARG
 		;;
 	h)
 		DEV_HOSTNAME=$OPTARG
+		;;
+	i)
+		IMAGE=$OPTARG
 		;;
 	p)
 		PLATFORM=$OPTARG
@@ -53,6 +56,7 @@ while getopts ":h:p:r:d:v:" opt; do
 		echo -e "  -h - hostname"
 		echo -e "  -p - platform (default: rpi)"
 		echo -e "  -r - role (default: generic). Choses bootstrap file from roles/ dir"
+		echo -e "  -i - path or url to image. Takes precedence over '-v'"
 		echo -e "  -v - HypriotOS version (default: latest). For rpi-amd64 use 'arm64'$RST"
 		exit 1
 		;;
@@ -66,7 +70,10 @@ done
 DEVICE="${DEVICE:-/dev/mmcblk0}"
 PLATFORM="${PLATFORM:-rpi}"
 ROLE="${ROLE:-generic}"
-IMAGE=$(get_image_url "$VERSION")
+if [ -z "$IMAGE" ]; then
+	IMAGE=$(get_image_url "$VERSION")
+	REMOTE_IMAGE=y
+fi
 VERSION="${VERSION:-latest}"
 if [ -z "$DEV_HOSTNAME" ]; then
 	echo -e "${R}No hostname specified (-h). Exiting.${RST}"
@@ -76,9 +83,12 @@ fi
 echo -e "${G}Using following options:"
 echo -e "  - DEVICE: $DEVICE"
 echo -e "  - HOSTNAME: $DEV_HOSTNAME"
-echo -e "  - PLATFORM: $PLATFORM"
 echo -e "  - ROLE: $ROLE"
-echo -e "  - OS VERSION: ${VERSION}${RST}"
+echo -e "  - PLATFORM: $PLATFORM"
+echo -e "  - IMAGE: ${IMAGE}${RST}"
+if [ -n "$REMOTE_IMAGE" ]; then
+	echo -e "${G}  - OS VERSION: ${VERSION}${RST}"
+fi
 
 echo -en "${Y}"
 read -p "Do you want to proceed? [y/Y] " -n 1 -r

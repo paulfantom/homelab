@@ -3,3 +3,5 @@
 ansible/roles/*
 !ansible/roles/requirements.yml
 nas_apps/secrets
+*.img
+*.img.zip
