@@ -36,11 +36,20 @@ Whole mediacenter is dockerized, and following containers are used:
 - [haugene/transmission-openvpn](https://hub.docker.com/haugene/transmission-openvpn)
 - ombi
 
-### Hypervisor
+## TODO
 
-For basic virtualization this is just plain libvirt with KVM.
-
-### Home Automation
-
-I'm running Home Assistant. (TODO)
+- Documentation
+- Moving internal domain from `*.ankhmorpork` to globally resolvable `*.ankhmorpork.thaum.xyz`
+- Write ansible playbooks
+- Intrenal portal site
+- TLS wildcard certificates with DNS-01 Let's Encrypt verification
+  - Reconfigure all services which by default use HTTPS connection to use Let's Encrypt certs
+  - Automate cert regeneration and deployment (temporary DO droplet?)
+- CloudFlare
+- Set up k8s cluster
+- Move as many `nas_apps` to k8s as possible
+- Reimplementation of backup solution (paulfantom.restic ansible role)
+- Automate NAS deployment and configuration
+- Disaster Recovery
+- Testing resiliency with some chaos engineering toolkit
 

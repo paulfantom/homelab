@@ -16,7 +16,7 @@ if [ -z "$IP" ]; then
 	exit 1
 fi
 
-if command -v sshpass >/dev/null 2>&1; then
+if ! command -v sshpass >/dev/null 2>&1; then
 	echo -e "$R""Cannot find 'sshpass' program needed by this script. Exiting."
 	exit 1
 fi
