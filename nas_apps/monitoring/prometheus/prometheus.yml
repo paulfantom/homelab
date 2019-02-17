@@ -27,6 +27,7 @@ scrape_configs:
       - 'control03.ankhmorpork:9100'
       - 'compute01.ankhmorpork:9100'
       - 'vetinari.ankhmorpork:9100'
+      - 'nobbynobbs.ankhmorpork:9100'
   - job_name: 'processes'
     static_configs:
     - targets:

@@ -3,7 +3,7 @@ groups:
   - name: default alert rules
     rules:
       - alert: InstanceDown
-        expr: "up == 0"
+        expr: 'up{job="nodes"} == 0'
         for: 5m
         labels:
           severity: critical

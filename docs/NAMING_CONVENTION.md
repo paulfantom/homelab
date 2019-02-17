@@ -13,7 +13,7 @@ Currently in use:
 
 ### Servers
 
-Named as characters from Discworld. They should be named in a way that reflects nature of a chosen character ex.:
+Servers should be named as characters from Discworld in a way that reflects nature of a chosen character ex.:
 
 "Vetinari" - living in Ankhmorpork AZ and managing it. Name for Home Assistant server.
 
