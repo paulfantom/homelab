@@ -67,9 +67,7 @@ DEVICE="${DEVICE:-/dev/mmcblk0}"
 PLATFORM="${PLATFORM:-rpi}"
 ROLE="${ROLE:-generic}"
 IMAGE=$(get_image_url "$VERSION")
-if [ -z "$VERSION" ]; then
-	VERSION="latest"
-fi
+VERSION="${VERSION:-latest}"
 if [ -z "$DEV_HOSTNAME" ]; then
 	echo -e "${R}No hostname specified (-h). Exiting.${RST}"
 	exit 1
@@ -79,6 +77,7 @@ echo -e "${G}Using following options:"
 echo -e "  - DEVICE: $DEVICE"
 echo -e "  - HOSTNAME: $DEV_HOSTNAME"
 echo -e "  - PLATFORM: $PLATFORM"
+echo -e "  - ROLE: $ROLE"
 echo -e "  - OS VERSION: ${VERSION}${RST}"
 
 echo -en "${Y}"

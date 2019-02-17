@@ -21,7 +21,7 @@ mkdir -p /mnt/remote
 if ! grep "/dev/sda" /etc/fstab; then
 	# shellcheck disable=SC2129
 	echo "/dev/sda /var/lib/docker ext4 defaults,_netdev,nofail 0 0" >>/etc/fstab
-	echo "nas.ankhmorpork:/mnt/ssd/raspberry/<<HOSTNAME>> /mnt/remote nfs defaults,_netdev,nofail 0 0" >>/etc/fstab
+	echo "nas.ankhmorpork:/mnt/ssd/raspberry/$(hostname) /mnt/remote nfs defaults,_netdev,nofail 0 0" >>/etc/fstab
 	echo "/mnt/remote/kubernetes /etc/kubernetes none bind,defaults,nofail 0 0" >>/etc/fstab
 fi
 mount -a
