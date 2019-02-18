@@ -13,3 +13,4 @@ dtparam=pwr_led_trigger=heartbeat
 
 dtoverlay=pi3-disable-wifi
 dtoverlay=pi3-disable-bt
+dtparam=poe_fan_temp0=60000,poe_fan_temp1=65000
