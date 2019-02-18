@@ -12,7 +12,7 @@ if [ -z "${ISCSI_IQN}" ]; then
 fi
 
 # Configure iSCSI
-echo "InitiatorName=iqn.2018-09.ankhmorpork.k8s:$(hostname)"
+echo "InitiatorName=iqn.2018-09.ankhmorpork.k8s:$(hostname)" > /etc/iscsi/initiatorname.iscsi
 iscsiadm -m discovery -t st -p "${ISCSI_TARGET}"
 iscsiadm -m node -T "${ISCSI_IQN}" -o update -n node.startup -v automatic
 

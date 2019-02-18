@@ -57,7 +57,7 @@ while getopts ":h:i:p:r:d:v:" opt; do
 		echo -e "  -p - platform (default: rpi)"
 		echo -e "  -r - role (default: generic). Choses bootstrap file from roles/ dir"
 		echo -e "  -i - path or url to image. Takes precedence over '-v'"
-		echo -e "  -v - HypriotOS version (default: latest). For rpi-amd64 use 'arm64'$RST"
+		echo -e "  -v - HypriotOS version (default: latest). For rpi-arm64 use 'arm64'$RST"
 		exit 1
 		;;
 	:)
