@@ -20,7 +20,6 @@ package_upgrade: true
 package_reboot_if_required: false
 packages:
   - vim
-  - jq
   - busybox-syslogd
   - haveged
 

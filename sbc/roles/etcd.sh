@@ -39,7 +39,7 @@ esac
 
 # Get latest node_exporter version
 if [ -z "${NODE_EXPORTER}" ]; then
-    NODE_EXPORTER="$(curl https://api.github.com/repos/prometheus/node_exporter/releases/latest 2>/dev/null | jq .tag_name)"
+    NODE_EXPORTER="$(curl -L https://api.github.com/repos/prometheus/node_exporter/releases/latest 2>/dev/null | grep '.tag_name' | cut -d'"' -f4)"
     NODE_EXPORTER=${NODE_EXPORTER//\"}
     NODE_EXPORTER=${NODE_EXPORTER//v}
 fi
@@ -89,3 +89,5 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
 apt-get update
 apt-get install -y kubeadm
+
+kubeadm config images pull

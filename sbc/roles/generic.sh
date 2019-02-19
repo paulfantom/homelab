@@ -6,7 +6,7 @@ sed -i 's/driftfile \/var\/lib\/ntp\/ntp.drift/driftfile \/var\/tmp\/ntp.drift/'
 
 # Get latest node_exporter version
 if [ -z "${NODE_EXPORTER}" ]; then
-    NODE_EXPORTER="$(curl https://api.github.com/repos/prometheus/node_exporter/releases/latest 2>/dev/null | jq .tag_name)"
+    NODE_EXPORTER="$(curl -L https://api.github.com/repos/prometheus/node_exporter/releases/latest 2>/dev/null | grep '.tag_name' | cut -d'"' -f4)"
     NODE_EXPORTER=${NODE_EXPORTER//\"}
     NODE_EXPORTER=${NODE_EXPORTER//v}
 fi
