@@ -13,6 +13,8 @@ services:
     #      - 8443:8443
     #      - 3478:3478/udp
     #      - 10001:10001/udp
+    environment:
+      RUNAS_UID0: "true"
     volumes:
       - unifi_data:/unifi/data
       - unifi_log:/unifi/log

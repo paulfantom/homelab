@@ -61,25 +61,6 @@ services:
     command:
       - "--config.file=/config.yml"
 
-  netdata:
-    image: netdata/netdata
-    hostname: nas.ankhmorpork.thaum.xyz
-    restart: 'always'
-    ports:
-      - 19999:19999
-    cap_add:
-      - SYS_PTRACE
-    environment:
-      PGID: 989
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:19999/api/v1/allmetrics"]
-      interval: 3s
-      timeout: 5s
-
   notifier:
     image: int128/slack-docker
     hostname: nas
