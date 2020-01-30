@@ -4,7 +4,8 @@
 hostname: "<<HOSTNAME>>"
 manage_etc_hosts: true
 
-timezone: "Europe/Warsaw"
+locale: "en_US.UTF-8"
+timezone: "Europe/Berlin"
 
 # resize_rootfs: false
 users:
@@ -22,6 +23,10 @@ packages:
   - vim
   - busybox-syslogd
   - haveged
+  - lsof
+  - tree
+  - curl
+  - htop
 
 mounts:
   - ["tmpfs", "/tmp", "tmpfs", "defaults,noatime,nosuid,size=100m", "0", "0"]
@@ -31,11 +36,12 @@ mounts:
 
 write_files:
   - path: /boot/cmdline.txt
-    content: "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1 elevator=deadline rootwait fsck.mode=skip fastboot ro net.ifnames=0"
+    content: "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1 elevator=deadline rootwait fsck.mode=skip fastboot rw net.ifnames=0"
 
 runcmd:
-  - wget "https://raw.githubusercontent.com/paulfantom/homelab/master/sbc/roles/<<ROLE>>.sh" -O /run/bootstrap.sh
-  - bash /run/bootstrap.sh
+  - "apt remove -y --purge rsyslog logrotate fake-hwclock"
+  - "sed -i 's/driftfile \/var\/lib\/ntp\/ntp.drift/driftfile \/var\/tmp\/ntp.drift/' /etc/ntp.conf"
+#  - "export INSTALL_K3S_SKIP_START=true && curl -sfL https://get.k3s.io | sh -"
 
 power_state:
   mode: reboot

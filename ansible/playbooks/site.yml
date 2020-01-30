@@ -1,5 +1,0 @@
-- include: common.yml
-- include: mediacenter.yml
-- include: hypervisors.yml
-- include: hass.yml
-- include: scheduler.yml

@@ -11,13 +11,13 @@ R='\e[31m'
 get_image_url() {
 	local VER="$1"
 	if [ -z "$VER" ] || [ "$VER" == "latest" ]; then
-		VER=$(curl --silent "https://api.github.com/repos/hypriot/image-builder-${PLATFORM}/releases/latest" | jq -r .tag_name)
+		VER=$(curl --silent "https://api.github.com/repos/hypriot/image-builder-rpi/releases/latest" | jq -r .tag_name)
 	fi
 	if [ "$VER" == "arm64" ]; then
 		echo "https://github.com/DieterReuter/image-builder-rpi64/releases/download/v20180429-184538/hypriotos-rpi64-v20180429-184538.img.zip"
 		return
 	fi
-	echo "https://github.com/hypriot/image-builder-${PLATFORM}/releases/download/${VER}/hypriotos-${PLATFORM}-${VER}.img.zip"
+	echo "https://github.com/hypriot/image-builder-rpi/releases/download/${VER}/hypriotos-rpi-${VER}.img.zip"
 	return
 }
 
@@ -28,7 +28,7 @@ install_flash() {
 	export PATH="/tmp:$PATH"
 }
 
-while getopts ":h:i:p:r:d:v:" opt; do
+while getopts ":h:i:d:v:" opt; do
 	case $opt in
 	d)
 		DEVICE=$OPTARG
@@ -39,12 +39,6 @@ while getopts ":h:i:p:r:d:v:" opt; do
 	i)
 		IMAGE=$OPTARG
 		;;
-	p)
-		PLATFORM=$OPTARG
-		;;
-	r)
-		ROLE=$OPTARG
-		;;
 	v)
 		VERSION=$OPTARG
 		[ "$VERSION" == "latest" ] && unset VERSION
@@ -54,7 +48,6 @@ while getopts ":h:i:p:r:d:v:" opt; do
 		echo -e "${Y}options:"
 		echo -e "  -d - sd card device (default: /dev/mmcblk0)"
 		echo -e "  -h - hostname"
-		echo -e "  -p - platform (default: rpi)"
 		echo -e "  -r - role (default: generic). Choses bootstrap file from roles/ dir"
 		echo -e "  -i - path or url to image. Takes precedence over '-v'"
 		echo -e "  -v - HypriotOS version (default: latest). For rpi-arm64 use 'arm64'$RST"
@@ -68,13 +61,11 @@ while getopts ":h:i:p:r:d:v:" opt; do
 done
 
 DEVICE="${DEVICE:-/dev/mmcblk0}"
-PLATFORM="${PLATFORM:-rpi}"
-ROLE="${ROLE:-generic}"
+VERSION="${VERSION:-latest}"
 if [ -z "$IMAGE" ]; then
 	IMAGE=$(get_image_url "$VERSION")
 	REMOTE_IMAGE=y
 fi
-VERSION="${VERSION:-latest}"
 if [ -z "$DEV_HOSTNAME" ]; then
 	echo -e "${R}No hostname specified (-h). Exiting.${RST}"
 	exit 1
@@ -83,8 +74,6 @@ fi
 echo -e "${G}Using following options:"
 echo -e "  - DEVICE: $DEVICE"
 echo -e "  - HOSTNAME: $DEV_HOSTNAME"
-echo -e "  - ROLE: $ROLE"
-echo -e "  - PLATFORM: $PLATFORM"
 echo -e "  - IMAGE: ${IMAGE}${RST}"
 if [ -n "$REMOTE_IMAGE" ]; then
 	echo -e "${G}  - OS VERSION: ${VERSION}${RST}"
@@ -102,9 +91,9 @@ command -v flash >/dev/null 2>&1 || install_flash
 
 cp "config.yml" "/tmp/config.yml.tmp"
 sed -i "s/<<HOSTNAME>>/$DEV_HOSTNAME/g" /tmp/config.yml.tmp
-sed -i "s/<<ROLE>>/$ROLE/g" /tmp/config.yml.tmp
 
-flash --bootconf "config.${PLATFORM}.txt" --userdata /tmp/config.yml.tmp --device "${DEVICE}" --hostname "${DEV_HOSTNAME}" "${IMAGE}"
+#flash --bootconf "config.txt" --userdata /tmp/config.yml.tmp --file "bootstrap/00_base.sh" --device "${DEVICE}" --hostname "${DEV_HOSTNAME}" "${IMAGE}"
+flash --bootconf "config.txt" --userdata /tmp/config.yml.tmp --device "${DEVICE}" --hostname "${DEV_HOSTNAME}" "${IMAGE}"
 rm /tmp/config.yml.tmp
 
 sync

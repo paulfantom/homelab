@@ -21,9 +21,12 @@ Currently in use:
 - rincewind
 - vetinari
 - dibbler
-- nacmacfeegle0[1-3] (etcd cluster)
+- azrael
+- deworde
+- detritus
+- nacmacfeegle0[1-3] (cattles)
 
-Currently only one exception is `nas.ankhmorpork`. This should be changed in the future.
+Currently only one exception is `nas.ankhmorpork`.
 
 ### DNS names (WIP)
 

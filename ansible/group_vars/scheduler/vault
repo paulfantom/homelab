@@ -1,4 +1,0 @@
-vault_gh_token: "<<hahahaha>>"
-vault_irccloud_credentials:
-  IRCCLOUD_USERNAME: "<<myuser>>"
-  IRCCLOUD_PASSWORD: "<<supersecretpassword>>"
